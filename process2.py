@@ -1,11 +1,29 @@
 from naive_bayes import naive_bayes
+from nltk.corpus import stopwords
+
+
 infile = open("spam.csv", encoding = "ISO-8859-1")
 idx = 0
 train_labels = []
 train_data = []
 test_labels = []
 test_data = []
-test_split_idx = 4000
+test_split_idx = 3500
+stop_words=stopwords.words('english')
+
+def process_line(line):
+    words = line.lower().split()
+    punct = ".!@#$%^&*()\"\';:,?/"
+    for i in range(len(words)):
+        for p in punct:
+            words[i] = words[i].replace(p, "")
+
+    # print("words: ", words)
+
+    # remove stop words
+    clean_words = [word.lower() for word in words if word.lower() not in stop_words]  
+    # print("clean_words: ", clean_words)
+    return clean_words
 
 def process_line(line):
     words = line.lower().split()
