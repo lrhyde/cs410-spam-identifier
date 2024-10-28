@@ -1,4 +1,9 @@
 from naive_bayes import naive_bayes
+import nltk
+nltk.download('stopwords')
+
+from nltk.corpus import stopwords
+
 infile = open("bot_detection_data.csv")
 idx = 0
 train_labels = []
@@ -6,6 +11,7 @@ train_data = []
 test_labels = []
 test_data = []
 test_split_idx = 35000
+stop_words=stopwords.words('english')
 
 def process_line(line):
     words = line.lower().split()
@@ -13,7 +19,13 @@ def process_line(line):
     for i in range(len(words)):
         for p in punct:
             words[i] = words[i].replace(p, "")
-    return words
+
+    # print("words: ", words)
+
+    # remove stop words
+    clean_words = [word.lower() for word in words if word.lower() not in stop_words]  
+    # print("clean_words: ", clean_words)
+    return clean_words
 
 for line in infile:
     idx+=1
@@ -37,3 +49,5 @@ for i in range(len(outputs)):
         accur +=1
     total +=1
 print(accur/total)
+
+print("stop_words: ", stop_words)
