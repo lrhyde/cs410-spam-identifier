@@ -49,3 +49,5 @@ def naive_bayes(train_set, train_labels, dev_set, laplace=0.005, pos_prior=0.8, 
         else:
             yhats.append(0)
     return yhats
+
+print("hello")
