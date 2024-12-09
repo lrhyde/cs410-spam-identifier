@@ -1,4 +1,5 @@
 from naive_bayes import naive_bayes
+from word2vec import word2vec
 from nltk.corpus import stopwords
 
 
@@ -17,13 +18,7 @@ def process_line(line):
     for i in range(len(words)):
         for p in punct:
             words[i] = words[i].replace(p, "")
-
-    # print("words: ", words)
-
-    # remove stop words
-    clean_words = [word.lower() for word in words if word.lower() not in stop_words]  
-    # print("clean_words: ", clean_words)
-    return clean_words
+    return words
 
 def process_line(line):
     words = line.lower().split()
@@ -31,7 +26,13 @@ def process_line(line):
     for i in range(len(words)):
         for p in punct:
             words[i] = words[i].replace(p, "")
-    return words
+
+    # print("words: ", words)
+
+    # remove stop words
+    clean_words = [word.lower() for word in words if word.lower() not in stop_words]  
+    # print("clean_words: ", clean_words)
+    return clean_words
 
 for line in infile:
     idx+=1
@@ -50,6 +51,15 @@ total = 0
 accur = 0
 for i in range(len(outputs)):
     if(outputs[i]==test_labels[i]):
+        accur +=1
+    total +=1
+print(accur/total)
+
+outputs2 = word2vec(train_data, train_labels, test_data)
+total = 0
+accur = 0
+for i in range(len(outputs2)):
+    if(outputs2[i]==test_labels[i]):
         accur +=1
     total +=1
 print(accur/total)
